@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * ax_putss - print a string
+ * ax_puts - print a string
  *
  * @c: string
  *
