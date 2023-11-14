@@ -6,5 +6,7 @@
 #include <stdarg.h>
 
 int _printf(const char *format, ...);
+int ax_putchr(char c);
+int ax_puts(char *c);
 
 #endif
