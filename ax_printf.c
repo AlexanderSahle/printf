@@ -13,6 +13,9 @@ int _printf(const char *format, ...)
 	unsigned int a, str_len,  all = 0;
 	va_list elements;
 
+	if (format == NULL)
+		return (-1);
+	
 	va_start(elements, format);
 
 	for (a = 0; format[a] != '\0'; a++)
