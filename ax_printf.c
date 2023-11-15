@@ -10,12 +10,9 @@
 
 int _printf(const char *format, ...)
 {
-	unsigned int a, str_len,  all = 0;
+	unsigned int a, str_len, all = 0;
 	va_list elements;
 
-	if (format == NULL)
-		return (-1);
-	
 	va_start(elements, format);
 
 	for (a = 0; format[a] != '\0'; a++)
@@ -25,24 +22,27 @@ int _printf(const char *format, ...)
 			ax_putchr(format[a]);
 		}
 
-		else if (format[a + 1] == 'c')
+		else
 		{
-			ax_putchr(va_arg(elements, int));
-			a++;
-		}
+			switch (format[a + 1])
+			{
+				case 'c':
+					ax_putchr(va_arg(elements, int));
+					a++;
+					break;
 
-		else if (format[a + 1] == 's')
-		{
-			str_len = ax_puts(va_arg(elements, char*));
-			a++;
-			all += (str_len - 1);
-		}
+				case 's':
+					str_len = ax_puts(va_arg(elements, char*));
+					a++;
+					all += (str_len - 1);
+					break;
 
-		else if (format[a + 1] == '%')
-		{
-			ax_putchr('%');
+				case '%':
+					ax_putchr('%');
+					break;
+			}
+			all += 1;
 		}
-		all += 1;
 	}
 	va_end(elements);
 	return (all);
