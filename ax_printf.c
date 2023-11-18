@@ -15,35 +15,38 @@ int _printf(const char *format, ...)
 
 	va_start(elements, format);
 
-	for (a = 0; format[a] != '\0'; a++)
+convert p[] = {
+		{"%s", print_s}, {"%c", print_c},
+		{"%%", print_37},
+		{"%i", print_i}, {"%d", print_d}, {"%r", print_revs},
+		{"%R", print_rot13}, {"%b", print_bin},
+		{"%u", print_unsigned},
+		{"%o", print_oct}, {"%x", print_hex}, {"%X", print_HEX},
+		{"%S", print_exc_string}, {"%p", print_pointer}
+	};
+
+
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+		return (-1);
+
+Here:
+	while (format[a] != '\0')
 	{
-		if (format[a] != '%')
+	b = 13;
+		while (b >= 0)
 		{
-			ax_putchr(format[a]);
-		}
-
-		else
-		{
-			switch (format[a + 1])
+			if (p[b].ph[0] == format[a] && p[b].ph[1] == format[a + 1])
 			{
-				case 'c':
-					ax_putchr(va_arg(elements, int));
-					a++;
-					break;
-
-				case 's':
-					str_len = ax_puts(va_arg(elements, char*));
-					a++;
-					all += (str_len - 1);
-					break;
-
-				case '%':
-					ax_putchr('%');
-					break;
+				length += p[j].function(elements);
+				a = a + 2;
+				goto Here;
 			}
-			all += 1;
+			b--;
 		}
+		ax_putchr(format[a]);
+		str_len++;
+		a++;
 	}
 	va_end(elements);
-	return (all);
+	return (srr_len);
 }
